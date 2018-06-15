@@ -1,0 +1,93 @@
+<template>
+  <v-ons-page id="app">
+    <v-ons-splitter>
+      <v-ons-splitter-side swipeable collapse width="250px"
+        :animation="$ons.platform.isAndroid() ? 'overlay' : 'reveal'"
+        :open.sync="menuIsOpen">
+        <menu-page></menu-page>
+      </v-ons-splitter-side>
+
+      <v-ons-splitter-content>
+        <home-page></home-page>
+        <map-view></map-view>
+      </v-ons-splitter-content>
+    </v-ons-splitter>
+  </v-ons-page>
+</template>
+
+<script>
+import HomePage from './components/HomePage'
+import MenuPage from './components/MenuPage'
+import MapView from './components/MapView'
+import { EventBus } from './js/event-bus.js';
+
+export default {
+  name: 'app',
+  
+  mounted: function() {
+    this.visited = JSON.parse(window.localStorage.getItem('visited') || '[]');
+    this.wanted = JSON.parse(window.localStorage.getItem('wanted') || '[]');
+
+    EventBus.$on('regionClicked', (data) => {
+      this.handleRegionClick(data.code);
+    });
+  },
+
+  data: function() {
+    return {
+      visited: [],
+      wanted: []
+    }
+  },
+
+  methods: {
+    handleRegionClick: function (code) {
+      if (this.visited.indexOf(code) != -1) {
+        this.wanted.push(code);
+        this.visited.splice(this.visited.indexOf(code), 1);
+      }
+      else if (this.wanted.indexOf(code) != -1) {
+        this.wanted.splice(this.wanted.indexOf(code), 1);
+      }
+      else {
+        this.visited.push(code);
+      }
+    },
+  },
+
+  computed: {
+    menuIsOpen: {
+      get () {
+        return this.$store.state.splitter.open
+      },
+      set (newValue) {
+        this.$store.commit('splitter/toggle', newValue)
+      }
+    }
+  },
+
+  components: {
+    HomePage,
+    MenuPage,
+    MapView
+  },
+
+  watch: {
+    visited: function (newList) {
+      window.localStorage.setItem('visited', JSON.stringify(newList));
+      alert("visited: " + this.visited);
+    },
+    wanted: function (newList) {
+      window.localStorage.setItem('wanted', JSON.stringify(newList));
+      alert("visited: " + this.wanted);
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+ons-splitter-side[side=left][animation=overlay] {
+  border-right: 1px solid #BBB;
+}
+</style>
