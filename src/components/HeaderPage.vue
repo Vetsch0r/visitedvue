@@ -1,5 +1,5 @@
 <template>
-  <v-ons-page class="toolbar-page">
+  <v-ons-page class="header-page">
     <v-ons-toolbar class="home-toolbar">
       <div class="left">
         <v-ons-toolbar-button @click="$store.commit('splitter/toggle')">
@@ -11,27 +11,34 @@
       </div>
 
     </v-ons-toolbar>
+    <map-view></map-view>
   </v-ons-page>
 </template>
 
 <script>
+  import MapView from '../components/MapView'
+
   export default {
     methods: {
 
-    }
+    },
+    components: {
+      MapView
+    },
+
   }
 </script>
 <style scoped>
-  .toolbar-page {
-    height: 56px;
+  .header-page {
+    height: 35%;
   }
 
-  .toolbar--material {
+  .toolbar {
     height:56px;
     background: #34aedc;
   }
 
-  .toolbar-button--material {
+  .toolbar-button {
     color: white;
   }
 

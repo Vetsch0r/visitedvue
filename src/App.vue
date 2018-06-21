@@ -4,21 +4,21 @@
       <v-ons-splitter-side swipeable collapse width="250px"
         :animation="$ons.platform.isAndroid() ? 'overlay' : 'reveal'"
         :open.sync="menuIsOpen">
-        <menu-page></menu-page>
+        <menu-page :visited="visited" :wanted="wanted"></menu-page>
       </v-ons-splitter-side>
-
       <v-ons-splitter-content>
-        <home-page></home-page>
-        <map-view></map-view>
+        <header-page></header-page>
+        <content-page :visited="visited" :wanted="wanted"></content-page>
       </v-ons-splitter-content>
     </v-ons-splitter>
   </v-ons-page>
 </template>
 
 <script>
-import HomePage from './components/HomePage'
+import HeaderPage from './components/HeaderPage'
 import MenuPage from './components/MenuPage'
 import MapView from './components/MapView'
+import ContentPage from './components/ContentPage'
 import { EventBus } from './js/event-bus.js';
 
 export default {
@@ -42,6 +42,7 @@ export default {
 
   methods: {
     handleRegionClick: function (code) {
+      alert("handleClick")
       if (this.visited.indexOf(code) != -1) {
         this.wanted.push(code);
         this.visited.splice(this.visited.indexOf(code), 1);
@@ -67,19 +68,17 @@ export default {
   },
 
   components: {
-    HomePage,
+    HeaderPage,
     MenuPage,
-    MapView
+    ContentPage
   },
 
   watch: {
     visited: function (newList) {
       window.localStorage.setItem('visited', JSON.stringify(newList));
-      alert("visited: " + this.visited);
     },
     wanted: function (newList) {
       window.localStorage.setItem('wanted', JSON.stringify(newList));
-      alert("visited: " + this.wanted);
     }
   }
 }
