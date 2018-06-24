@@ -2,12 +2,17 @@
     <v-ons-page class="content-page">
         <template v-for="(value, key) in continents">
             <ons-list-header>{{ $t(key) }}<span class="notification">{{getContinentCount(key)}}</span></ons-list-header>
+            
             <ons-list-item :key="country.code" v-for="country in value.countries">
                 <div class="left">
                     <img class="list-item__thumbnail" :src="getImgUrl(country.code)">
                 </div>
                 <div class="center">
                     {{country.name}}
+                </div>
+                <div class="right">
+                    <font-awesome-icon icon="check-circle" size="2x"/>
+                   <font-awesome-icon icon="eye" size="2x"/>
                 </div>
             </ons-list-item>
         </template>
@@ -52,7 +57,7 @@
         overflow-y: scroll;
         height: 65%;
         background-color:#444546;
-        top:35%;
+        top:40%;
     }
 
     .list-header{
@@ -62,6 +67,10 @@
 
     .list-item{
         border-bottom: 1px solid #494949;
+    }
+
+    .list-header:not(:first-of-type) {
+        padding-top: 8px;
     }
 
     .notification {

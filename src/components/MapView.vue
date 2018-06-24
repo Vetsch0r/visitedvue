@@ -12,33 +12,72 @@
         props: ['visited', 'wanted'],
 
         methods: {
+            updateSelection() {
+                var areas = [];
+                for (var i = 0, len = this.visited.length; i < len; i++) {
+                    areas.push({
+                        id: this.visited[i],
+                        color: this.visitedColor
+                    })
+                }
+                for (var i = 0, len = this.wanted.length; i < len; i++) {
+                    areas.push({
+                        id: this.wanted[i],
+                        color: this.wantedColor
+                    })
+                }
+                this.map.dataProvider.areas = areas;
+                this.map.validateData();
+            }
+        },
 
+        mounted: function() {
+            this.updateSelection();
+        },
+
+        data: function() {
+            return {
+                map : null,
+                visitedColor: "#222222",
+                wantedColor: "#AAAAAA"
+            }
         },
 
         created () {
-            var map = AmCharts.makeChart("mapdiv", {
+            this.map = AmCharts.makeChart("mapdiv", {
                 "type": "map",
+                "theme": "light",
                 "addClassNames": true,
+                "hideCredits":true,
                 "dataProvider": {
                     "map": "worldHigh",
                     "getAreasFromMap": true,
-                    "areas": this.get
                 },
                 "areasSettings": {
                     "selectable": true
                 },
                 "zoomControl": {
-		            "zoomControlEnabled": false
+		            "zoomControlEnabled": false,
+                    "homeButtonEnabled": false
 	            },
                 "smallMap": {
 		            "enabled": false
 	            },
             });
-            map.addListener("clickMapObject", function(event) {
+            this.map.addListener("clickMapObject", function(event) {
                 EventBus.$emit('regionClicked', {
                     code: event.mapObject.id
                 });
             });
+        },
+
+        watch: {
+            visited: function (newList) {
+                this.updateSelection();
+            },
+            wanted: function (newList) {
+                this.updateSelection();
+            }
         }
     }
 </script>
@@ -48,10 +87,6 @@
         position:absolute; 
         height: 100%;
         width: 100%;
-    }
-
-    .mapPage a {
-        display: none !important;
     }
 
     .map-container {

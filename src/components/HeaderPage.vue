@@ -11,7 +11,7 @@
       </div>
 
     </v-ons-toolbar>
-    <map-view></map-view>
+    <map-view :visited="visited" :wanted="wanted"></map-view>
   </v-ons-page>
 </template>
 
@@ -22,6 +22,9 @@
     methods: {
 
     },
+
+    props: ['visited', 'wanted'],
+    
     components: {
       MapView
     },
@@ -30,7 +33,7 @@
 </script>
 <style scoped>
   .header-page {
-    height: 35%;
+    height: 40%;
   }
 
   .toolbar {

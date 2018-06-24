@@ -7,7 +7,7 @@
         <menu-page :visited="visited" :wanted="wanted"></menu-page>
       </v-ons-splitter-side>
       <v-ons-splitter-content>
-        <header-page></header-page>
+        <header-page :visited="visited" :wanted="wanted"></header-page>
         <content-page :visited="visited" :wanted="wanted"></content-page>
       </v-ons-splitter-content>
     </v-ons-splitter>
@@ -24,7 +24,7 @@ import { EventBus } from './js/event-bus.js';
 export default {
   name: 'app',
   
-  mounted: function() {
+  created: function() {
     this.visited = JSON.parse(window.localStorage.getItem('visited') || '[]');
     this.wanted = JSON.parse(window.localStorage.getItem('wanted') || '[]');
 
@@ -42,7 +42,6 @@ export default {
 
   methods: {
     handleRegionClick: function (code) {
-      alert("handleClick")
       if (this.visited.indexOf(code) != -1) {
         this.wanted.push(code);
         this.visited.splice(this.visited.indexOf(code), 1);
@@ -86,7 +85,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-ons-splitter-side[side=left][animation=overlay] {
-  border-right: 1px solid #BBB;
-}
+  ons-splitter-side[side=left][animation=overlay] {
+    border-right: 1px solid #BBB;
+  }
 </style>

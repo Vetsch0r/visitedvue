@@ -13,6 +13,14 @@ import AmMap from 'ammap3'
 import WorldLow from 'ammap3/ammap/maps/js/worldHigh'
 import texts from './texts/texts';
 
+//font awesome
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faCheckCircle, faEye } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faEye, faCheckCircle)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
 Vue.config.productionTip = false
 
 Vue.use(VueI18n)
