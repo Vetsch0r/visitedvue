@@ -17,22 +17,9 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-img {
-  max-width: 150px;
-}
-
-ons-list-title {
-  text-transform: none;
-}
-
-ons-list-item {
-  cursor: pointer;
-}
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
 </style>

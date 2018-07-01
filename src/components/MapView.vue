@@ -12,71 +12,68 @@
         props: ['visited', 'wanted'],
 
         methods: {
-            updateSelection() {
-                var areas = [];
-                for (var i = 0, len = this.visited.length; i < len; i++) {
-                    areas.push({
-                        id: this.visited[i],
-                        color: this.visitedColor
-                    })
-                }
-                for (var i = 0, len = this.wanted.length; i < len; i++) {
-                    areas.push({
-                        id: this.wanted[i],
-                        color: this.wantedColor
-                    })
-                }
-                this.map.dataProvider.areas = areas;
-                this.map.validateData();
+            calculateDataSeries: function () {
+                var self = this;
+                var visitedSeries = this.visited.reduce(function (result, item, index, array) {
+                    result[item] = self.visitedColor;
+                    return result;
+                }, {});
+                var wantedSeries = this.wanted.reduce(function (result, item, index, array) {
+                    result[item] = self.wantedColor;
+                    return result;
+                }, {});
+                return Object.assign(visitedSeries, wantedSeries)
+            },
+
+            updateColors: function() {
+                alert('updateColors')
+                jQuery('#mapdiv').vectorMap("set", "colors", this.calculateDataSeries);
+            },
+
+            loadMap: function(){
+                jQuery('#mapdiv').empty();
+                jQuery('#mapdiv').vectorMap(
+                {
+                    map: 'world_en',
+                    backgroundColor: '#383f47',
+                    borderColor: '#818181',
+                    borderOpacity: 0.25,
+                    borderWidth: 1,
+                    color: '#f4f3f0',
+                    enableZoom: true,
+                    hoverColor: '#c9dfaf',
+                    hoverOpacity: null,
+                    normalizeFunction: 'polynomial',
+                    colors: this.calculateDataSeries(),
+                    onRegionClick: function(event, countryCode, region)
+                    {
+                        EventBus.$emit('regionClicked', {
+                            code: countryCode
+                        });
+                        event.preventDefault();
+                        event.stopPropagation();                   
+                    }
+                });
             }
         },
 
         mounted: function() {
-            this.updateSelection();
+            this.loadMap();
         },
 
         data: function() {
             return {
                 map : null,
-                visitedColor: "#222222",
-                wantedColor: "#AAAAAA"
+                visitedColor: "#03a834",
+                wantedColor: "#a80303"
             }
         },
-
-        created () {
-            this.map = AmCharts.makeChart("mapdiv", {
-                "type": "map",
-                "theme": "light",
-                "addClassNames": true,
-                "hideCredits":true,
-                "dataProvider": {
-                    "map": "worldHigh",
-                    "getAreasFromMap": true,
-                },
-                "areasSettings": {
-                    "selectable": true
-                },
-                "zoomControl": {
-		            "zoomControlEnabled": false,
-                    "homeButtonEnabled": false
-	            },
-                "smallMap": {
-		            "enabled": false
-	            },
-            });
-            this.map.addListener("clickMapObject", function(event) {
-                EventBus.$emit('regionClicked', {
-                    code: event.mapObject.id
-                });
-            });
-        },
-
         watch: {
             visited: function (newList) {
-                this.updateSelection();
+                this.loadMap();
             },
             wanted: function (newList) {
-                this.updateSelection();
+                this.loadMap();
             }
         }
     }

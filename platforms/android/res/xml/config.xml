@@ -4,15 +4,36 @@
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
     </feature>
-    <name>onsenvue</name>
+    <name>visited</name>
     <description>
       Vue.js + Onsen UI + Cordova sample app
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
+    <author email="tvetsch89@gmail.com">
       Vue.js + Onsen UI + Cordova teams
     </author>
     <content src="index.html" />
     <access origin="*" />
+    <icon src="icon.png" />
+    <icon height="60" platform="ios" src="res/icon/ios/icon-60.png" width="60" />
+    <icon height="120" platform="ios" src="res/icon/ios/icon-60-2x.png" width="120" />
+    <icon height="180" platform="ios" src="res/icon/ios/icon-60-3x.png" width="180" />
+    <icon height="76" platform="ios" src="res/icon/ios/icon-76.png" width="76" />
+    <icon height="152" platform="ios" src="res/icon/ios/icon-76-2x.png" width="152" />
+    <icon height="40" platform="ios" src="res/icon/ios/icon-40.png" width="40" />
+    <icon height="57" platform="ios" src="res/icon/ios/icon-57.png" width="57" />
+    <icon height="114" platform="ios" src="res/icon/ios/icon-57-2x.png" width="114" />
+    <icon height="72" platform="ios" src="res/icon/ios/icon-72.png" width="72" />
+    <icon height="144" platform="ios" src="res/icon/ios/icon-72-2x.png" width="144" />
+    <icon height="29" platform="ios" src="res/icon/ios/icon-small.png" width="29" />
+    <icon height="58" platform="ios" src="res/icon/ios/icon-small-2x.png" width="58" />
+    <icon height="50" platform="ios" src="res/icon/ios/icon-50.png" width="50" />
+    <icon height="100" platform="ios" src="res/icon/ios/icon-50-2x.png" width="100" />
+    <icon platform="android" qualifier="ldpi" src="res/icon/android/icon-36-ldpi.png" />
+    <icon platform="android" qualifier="mdpi" src="res/icon/android/icon-48-mdpi.png" />
+    <icon platform="android" qualifier="hdpi" src="res/icon/android/icon-72-hdpi.png" />
+    <icon platform="android" qualifier="xhdpi" src="res/icon/android/icon-96-xhdpi.png" />
+    <icon platform="android" qualifier="xxhdpi" src="res/icon/android/icon-144-xxhdpi.png" />
+    <icon platform="android" qualifier="xxxhdpi" src="res/icon/android/icon-192-xxxhdpi.png" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />

@@ -1,14 +1,14 @@
 <template>
   <v-ons-page id="app">
     <v-ons-splitter>
-      <v-ons-splitter-side swipeable collapse width="250px"
+      <v-ons-splitter-side collapse width="250px"
         :animation="$ons.platform.isAndroid() ? 'overlay' : 'reveal'"
         :open.sync="menuIsOpen">
-        <menu-page :visited="visited" :wanted="wanted"></menu-page>
+        <menu-page :visited="visited" :wanted="wanted" :visitedColor="visitedColor" :wantedColor="wantedColor"></menu-page>
       </v-ons-splitter-side>
       <v-ons-splitter-content>
         <header-page :visited="visited" :wanted="wanted"></header-page>
-        <content-page :visited="visited" :wanted="wanted"></content-page>
+        <content-page :visited="visited" :wanted="wanted" :visitedColor="visitedColor" :wantedColor="wantedColor"></content-page>
       </v-ons-splitter-content>
     </v-ons-splitter>
   </v-ons-page>
@@ -27,16 +27,30 @@ export default {
   created: function() {
     this.visited = JSON.parse(window.localStorage.getItem('visited') || '[]');
     this.wanted = JSON.parse(window.localStorage.getItem('wanted') || '[]');
-
+    
+    this.visitedColor = window.localStorage.getItem('visitedColor');
+    if(this.visitedColor == undefined || this.visitedColor == null){
+      this.visitedColor = "#03a834";
+    }
+    this.wantedColor = window.localStorage.getItem('wantedColor');
+    if(this.wantedColor == undefined || this.wantedColor == null){
+      this.wantedColor = "#a80303";
+    }
+    
     EventBus.$on('regionClicked', (data) => {
       this.handleRegionClick(data.code);
+    });
+    EventBus.$on('iconClicked', (data) => {
+      this.handleIconClick(data.code, data.mode);
     });
   },
 
   data: function() {
     return {
       visited: [],
-      wanted: []
+      wanted: [],
+      visitedColor: undefined,
+      wantedColor: undefined
     }
   },
 
@@ -53,6 +67,31 @@ export default {
         this.visited.push(code);
       }
     },
+    
+    handleIconClick: function(code, mode){
+      if(mode === 'visited'){
+        if(this.visited.indexOf(code) != -1){
+          this.visited.splice(this.visited.indexOf(code), 1);
+        }
+        else{
+          this.visited.push(code);
+          if(this.wanted.indexOf(code) != -1){
+            this.wanted.splice(this.wanted.indexOf(code), 1);
+          }
+        }
+      }
+      if(mode === 'wanted'){
+        if(this.wanted.indexOf(code) != -1){
+          this.wanted.splice(this.wanted.indexOf(code), 1);
+        }
+        else{
+          this.wanted.push(code);
+          if(this.visited.indexOf(code) != -1){
+            this.visited.splice(this.visited.indexOf(code), 1);
+          }
+        }
+      }
+    }
   },
 
   computed: {
@@ -83,9 +122,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  ons-splitter-side[side=left][animation=overlay] {
-    border-right: 1px solid #BBB;
-  }
+
 </style>

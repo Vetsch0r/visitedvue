@@ -22,9 +22,8 @@
     methods: {
 
     },
-
-    props: ['visited', 'wanted'],
     
+    props: ['visited', 'wanted'],
     components: {
       MapView
     },
@@ -33,7 +32,7 @@
 </script>
 <style scoped>
   .header-page {
-    height: 40%;
+    height: 45%;
   }
 
   .toolbar {

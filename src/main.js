@@ -9,16 +9,22 @@ import VueOnsen from 'vue-onsenui'
 import VueI18n from 'vue-i18n'
 import store from './store'
 import App from './App'
-import AmMap from 'ammap3'
-import WorldLow from 'ammap3/ammap/maps/js/worldHigh'
+
 import texts from './texts/texts';
+
+//map
+import jQuery from 'jquery'
+window.jQuery = window.$ =  jQuery;
+require('jqvmap'); 
+require('jqvmap/dist/maps/jquery.vmap.world.js'); 
+
 
 //font awesome
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCheckCircle, faEye } from '@fortawesome/free-solid-svg-icons'
+import { faCheckCircle, faHeart } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faEye, faCheckCircle)
+library.add(faHeart, faCheckCircle)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
