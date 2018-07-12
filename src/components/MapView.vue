@@ -26,12 +26,11 @@
             },
 
             updateColors: function() {
-                alert('updateColors')
-                jQuery('#mapdiv').vectorMap("set", "colors", this.calculateDataSeries);
+                jQuery('#mapdiv').vectorMap("set", "colors", this.calculateDataSeries());
             },
 
             loadMap: function(){
-                jQuery('#mapdiv').empty();
+                var self = this;
                 jQuery('#mapdiv').vectorMap(
                 {
                     map: 'world_en',
@@ -41,17 +40,23 @@
                     borderWidth: 1,
                     color: '#f4f3f0',
                     enableZoom: true,
-                    hoverColor: '#c9dfaf',
-                    hoverOpacity: null,
-                    normalizeFunction: 'polynomial',
+                    normalizeFunction: 'linear',
                     colors: this.calculateDataSeries(),
+                    onRegionOver: function (event, code, region) {
+                        event.preventDefault();
+                    },
                     onRegionClick: function(event, countryCode, region)
                     {
+                        event.preventDefault();
+                        if(self.wanted.indexOf(countryCode) != -1){
+                            var colorObject = {};
+                            colorObject[countryCode] = '#f4f3f0';
+                            jQuery('#mapdiv').vectorMap("set", "colors", colorObject);
+                        }
                         EventBus.$emit('regionClicked', {
                             code: countryCode
                         });
-                        event.preventDefault();
-                        event.stopPropagation();                   
+                                       
                     }
                 });
             }
@@ -70,10 +75,10 @@
         },
         watch: {
             visited: function (newList) {
-                this.loadMap();
+                this.updateColors();
             },
             wanted: function (newList) {
-                this.loadMap();
+                this.updateColors();
             }
         }
     }

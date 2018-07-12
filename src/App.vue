@@ -36,7 +36,7 @@ export default {
     if(this.wantedColor == undefined || this.wantedColor == null){
       this.wantedColor = "#a80303";
     }
-    
+
     EventBus.$on('regionClicked', (data) => {
       this.handleRegionClick(data.code);
     });
